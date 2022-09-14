@@ -8,6 +8,7 @@
  * @returns {Element} Elemento de imagem do produto.
  */
 const paiDeTodos = document.getElementsByClassName('items')[0];
+const carrinho = document.getElementsByClassName('cart__items')[0];
 
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
@@ -76,11 +77,18 @@ const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
-  li.addEventListener('click', 'cartItemClickListener');
+  // li.addEventListener('click', cartItemClickListener);
   return li;
 };
 
-const addCartProduct = document.querySelector('cart__items');
+const addCartProduct = async (event) => {
+  const id = (event.target.parentNode.firstChild.innerText);
+  const newProduct = await fetchItem(id);
+  const addCarrinho = createCartItemElement(newProduct);
+  carrinho.appendChild(addCarrinho);
+  console.log('click', addCarrinho);
+};
+
 async function cartProduct(event) {
   const findId = addProductItem(event.target.parentNode);
   const data = await fetchItem(findId);
@@ -88,12 +96,14 @@ async function cartProduct(event) {
   cartList.appendChild(addCartItens);
   saveCartItems(cartList.innerHTML);
 }
+
+
 const addProduct = async () => {
   const product = await fetchProducts('computador');
   product.results.forEach((element) => {
     const minhaSection = createProductItemElement(element);
-    console.log(minhaSection);
-  paiDeTodos.appendChild(minhaSection);
+    //  console.log(minhaSection);
+    paiDeTodos.appendChild(minhaSection);
   })
 };
 
