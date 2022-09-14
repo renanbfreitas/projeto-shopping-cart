@@ -97,7 +97,6 @@ async function cartProduct(event) {
   saveCartItems(cartList.innerHTML);
 }
 
-
 const addProduct = async () => {
   const product = await fetchProducts('computador');
   product.results.forEach((element) => {
