@@ -40,10 +40,27 @@ const createCustomElement = (element, className, innerText) => {
  * @returns {Element} Elemento de produto.
  */
 
+ const createCartItemElement = ({ id, title, price }) => {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
+  // li.addEventListener('click', cartItemClickListener);
+  return li;
+};
+
+const addCartProduct = async (event) => {
+  const id = (event.target.parentNode.firstChild.innerText);
+  const newProduct = await fetchItem(id);
+  const addCarrinho = createCartItemElement(newProduct);
+  carrinho.appendChild(addCarrinho);
+  console.log('click', addCarrinho);
+};
+
 const createProductItemElement = ({ id, title, thumbnail }) => {
   const section = document.createElement('section');
   section.className = 'item';
   const buttons = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
+  // eslint-disable-next-line no-use-before-define
   buttons.addEventListener('click', addCartProduct);
 
   section.appendChild(createCustomElement('span', 'item_id', id));
@@ -73,22 +90,6 @@ const cartItemClickListener = () => {
 
 };
 
-const createCartItemElement = ({ id, title, price }) => {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
-  // li.addEventListener('click', cartItemClickListener);
-  return li;
-};
-
-const addCartProduct = async (event) => {
-  const id = (event.target.parentNode.firstChild.innerText);
-  const newProduct = await fetchItem(id);
-  const addCarrinho = createCartItemElement(newProduct);
-  carrinho.appendChild(addCarrinho);
-  console.log('click', addCarrinho);
-};
-
 async function cartProduct(event) {
   const findId = addProductItem(event.target.parentNode);
   const data = await fetchItem(findId);
@@ -103,7 +104,7 @@ const addProduct = async () => {
     const minhaSection = createProductItemElement(element);
     //  console.log(minhaSection);
     paiDeTodos.appendChild(minhaSection);
-  })
+  });
 };
 
 window.onload = () => {
