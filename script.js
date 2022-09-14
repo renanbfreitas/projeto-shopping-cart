@@ -10,6 +10,12 @@
 const paiDeTodos = document.getElementsByClassName('items')[0];
 const carrinho = document.getElementsByClassName('cart__items')[0];
 
+const removeCar = (event) => {
+  const itemCar = event.target;
+  itemCar.remove('.cart__items');
+  console.log('click', itemCar);
+};
+
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -45,6 +51,7 @@ const createCustomElement = (element, className, innerText) => {
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
   // li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', removeCar);
   return li;
 };
 
@@ -107,7 +114,14 @@ const addProduct = async () => {
   });
 };
 
+const carItem = () => {
+  const ol = document.querySelector('.cart__items');
+  const lis = ol.childNodes;
+  lis.forEach((li) => li.addEventListener('click', removeCar));
+};
+
 window.onload = () => {
   // fetchProducts('computador').then(console.log);
   addProduct();
+  carItem();
 };
