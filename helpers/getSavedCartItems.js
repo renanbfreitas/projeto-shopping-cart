@@ -1,5 +1,5 @@
 const getSavedCartItems = (item) => {
-  localStorage.getItem(item);
+  localStorage.getItem(item); 
 };
 
 if (typeof module !== 'undefined') {

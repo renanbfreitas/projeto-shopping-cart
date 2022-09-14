@@ -9,6 +9,7 @@
  */
 const paiDeTodos = document.getElementsByClassName('items')[0];
 const carrinho = document.getElementsByClassName('cart__items')[0];
+const loading = document.querySelector('.loading');
 
 const removeCar = (event) => {
   const itemCar = event.target;
@@ -69,6 +70,7 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
   const buttons = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
   // eslint-disable-next-line no-use-before-define
   buttons.addEventListener('click', addCartProduct);
+  loading.remove();
 
   section.appendChild(createCustomElement('span', 'item_id', id));
   section.appendChild(createCustomElement('span', 'item__title', title));
@@ -120,8 +122,13 @@ const carItem = () => {
   lis.forEach((li) => li.addEventListener('click', removeCar));
 };
 
+const addText = () => {
+  loading.innerText = 'carregando...';
+};
+
 window.onload = () => {
   // fetchProducts('computador').then(console.log);
   addProduct();
   carItem();
+  addText();
 };
