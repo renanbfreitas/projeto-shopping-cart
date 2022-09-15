@@ -10,6 +10,8 @@
 const paiDeTodos = document.getElementsByClassName('items')[0];
 const carrinho = document.getElementsByClassName('cart__items')[0];
 const loading = document.querySelector('.loading');
+const clearCar = document.querySelector('.empty-cart');
+const ol = document.querySelector('.cart__items');
 
 const removeCar = (event) => {
   const itemCar = event.target;
@@ -117,7 +119,7 @@ const addProduct = async () => {
 };
 
 const carItem = () => {
-  const ol = document.querySelector('.cart__items');
+ // const ol = document.querySelector('.cart__items');
   const lis = ol.childNodes;
   lis.forEach((li) => li.addEventListener('click', removeCar));
 };
@@ -126,9 +128,20 @@ const addText = () => {
   loading.innerText = 'carregando...';
 };
 
+// const esvaziaCarrinho = () => {
+// clearCar.addEventListener('click', () => {
+// carItem.innerHTML = '';
+// });
+// };
+
+clearCar.addEventListener('click', () => {
+Array.from(ol.children).forEach((product) => { ol.removeChild(product); });
+});
+
 window.onload = () => {
   // fetchProducts('computador').then(console.log);
   addProduct();
   carItem();
   addText();
+  // esvaziaCarrinho();
 };
