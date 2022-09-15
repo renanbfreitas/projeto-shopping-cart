@@ -1,6 +1,11 @@
 // Esse tipo de comentário que estão antes de todas as funções são chamados de JSdoc,
 // experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições! 
 // Fique a vontade para modificar o código já escrito e criar suas próprias funções!
+
+// const getSavedCartItems = require("./helpers/getSavedCartItems");
+
+// const saveCartItems = require("./helpers/saveCartItems");
+
 /**
  * 
  * Função responsável por criar e retornar o elemento de imagem do produto.
@@ -12,6 +17,7 @@ const carrinho = document.getElementsByClassName('cart__items')[0];
 const loading = document.querySelector('.loading');
 const clearCar = document.querySelector('.empty-cart');
 const ol = document.querySelector('.cart__items');
+ol.innerHTML = getSavedCartItems('cartItems');
 
 const removeCar = (event) => {
   const itemCar = event.target;
@@ -64,6 +70,7 @@ const addCartProduct = async (event) => {
   const addCarrinho = createCartItemElement(newProduct);
   carrinho.appendChild(addCarrinho);
   console.log('click', addCarrinho);
+  saveCartItems(ol.innerHTML); 
 };
 
 const createProductItemElement = ({ id, title, thumbnail }) => {
@@ -136,6 +143,7 @@ const addText = () => {
 
 clearCar.addEventListener('click', () => {
 Array.from(ol.children).forEach((product) => { ol.removeChild(product); });
+saveCartItems(ol.innerHTML); // adicionado para teste
 });
 
 window.onload = () => {
