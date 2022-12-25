@@ -19,6 +19,18 @@ const clearCar = document.querySelector('.empty-cart');
 const ol = document.querySelector('.cart__items');
 ol.innerHTML = getSavedCartItems('cartItems');
 
+const subTotal = async () => {
+  const itemPrice = document.querySelectorAll('.cart__item');
+  const button = document.querySelector('.total-price');
+  let totalSum = 0;
+
+  itemPrice.forEach((element) => {
+    const calc = Number(element.innerText.split('$')[1]);
+   totalSum += calc;
+  });
+  button.innerText = `Subtotal: R$${Math.round(totalSum * 100) / 100}`;
+};
+
 const removeCar = (event) => {
   const itemCar = event.target;
   itemCar.remove('.cart__items');
@@ -59,8 +71,8 @@ const createCustomElement = (element, className, innerText) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
-  // li.addEventListener('click', cartItemClickListener);
   li.addEventListener('click', removeCar);
+  subTotal();
   return li;
 };
 
@@ -71,14 +83,15 @@ const addCartProduct = async (event) => {
   carrinho.appendChild(addCarrinho);
   console.log('click', addCarrinho);
   saveCartItems(ol.innerHTML); 
+  subTotal();
 };
 
 const createProductItemElement = ({ id, title, thumbnail }) => {
   const section = document.createElement('section');
   section.className = 'item';
   const buttons = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
-  // eslint-disable-next-line no-use-before-define
   buttons.addEventListener('click', addCartProduct);
+  subTotal();
   loading.remove();
 
   section.appendChild(createCustomElement('span', 'item_id', id));
@@ -104,9 +117,6 @@ const getIdFromProductItem = (product) => product.querySelector('span.item_id').
  * @param {string} product.price - Preço do produto.
  * @returns {Element} Elemento de um item do carrinho.
  */
-const cartItemClickListener = () => {
-
-};
 
 async function cartProduct(event) {
   const findId = addProductItem(event.target.parentNode);
@@ -120,36 +130,28 @@ const addProduct = async () => {
   const product = await fetchProducts('computador');
   product.results.forEach((element) => {
     const minhaSection = createProductItemElement(element);
-    //  console.log(minhaSection);
     paiDeTodos.appendChild(minhaSection);
   });
 };
 
 const carItem = () => {
- // const ol = document.querySelector('.cart__items');
   const lis = ol.childNodes;
   lis.forEach((li) => li.addEventListener('click', removeCar));
+  subTotal();
 };
 
 const addText = () => {
   loading.innerText = 'carregando...';
 };
 
-// const esvaziaCarrinho = () => {
-// clearCar.addEventListener('click', () => {
-// carItem.innerHTML = '';
-// });
-// };
-
 clearCar.addEventListener('click', () => {
 Array.from(ol.children).forEach((product) => { ol.removeChild(product); });
-saveCartItems(ol.innerHTML); // adicionado para teste
+saveCartItems(ol.innerHTML);
+subTotal();
 });
 
 window.onload = () => {
-  // fetchProducts('computador').then(console.log);
   addProduct();
   carItem();
   addText();
-  // esvaziaCarrinho();
 };
