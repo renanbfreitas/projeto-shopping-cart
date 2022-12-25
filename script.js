@@ -154,4 +154,6 @@ window.onload = () => {
   addProduct();
   carItem();
   addText();
+  getIdFromProductItem(); 
+  cartProduct();
 };
